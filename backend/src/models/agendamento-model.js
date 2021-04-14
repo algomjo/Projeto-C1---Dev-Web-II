@@ -5,16 +5,16 @@ const agendamentoSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         require: true
     },
-    data_hora_agendamento: {
+    dataHoraAgendamento: {
         type: mongoose.Schema.Types.Date,
         default: Date.now,
         require: false
     },
-    necessidade_especiais: {
+    necEspeciais: {
         type: mongoose.Schema.Types.Boolean,
         require: false
     },
-    observação_agendamento: {
+    obsAgendamento: {
         type: mongoose.Schema.Types.String,
         require: false
     }

@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const port = 3000;
 const hostname = 'localhost';
 
-const unidadeRoutes = require('./routes/unidadeDeSaude-routes');
+const unidadeRoutes = require('./routes/unidadeSaude-routes');
 const pessoaRoutes = require('./routes/pessoas-routes');
 const agendamentoRoutes = require('./routes/agendamento-routes');
 

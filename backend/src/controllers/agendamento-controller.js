@@ -1,64 +1,14 @@
-const agendamentoModel = require('../models/agendamento-model');
+const agendModel = require('../models/agendamento-model');
 
 const mongoose = require('mongoose');
 
 
-//Rota basica que cria unidade, pessoas, agendamentos
-// exports.adicionarAluno = async (req, res) => {
 
-  
-//         try {    
-          
-             
-//             //Criar documento unidade
-//             let unidade = new unidadeDeSaudeModel();            
-//             unidade.nome_unidade = req.body.nome_unidade; 
-//             unidade.descriacao_unidade =  req.body.descriacao_unidade;
-//             unidade.endereco_unidade =  req.body.endereco_unidade;
-//             unidade.telefone_unidade =  req.body.telefone_unidade;
-//             unidade.email_unidade =  req.body.email_unidade;
-//             unidade.latlong_unidade =  req.body.latlong_unidade;
-//             const unidadeDeSaude = await unidadeDeSaudeModel.create(unidade);
-
-            
-//            //Criar documento pessoas
-//             let pessoa = new pessoaModel();
-//             pessoa.nome_pessoa = req.body.pessoa.nome_pessoa;
-//             pessoa.cpf_pessoa = req.body.pessoa.cpf_pessoa;
-//             pessoa.data_nascimento = req.body.pessoa.data_nascimento;
-//             pessoa.telefone_pessoa = req.body.pessoa.telefone_pessoa;
-//             pessoa.grupo_prioritario = req.body.pessoa.grupo_prioritario;
-//             pessoa.endereço_pessoa = req.body.pessoa.endereço_pessoa;
-//             pessoa.email_pessoa = req.body.pessoa.email_pessoa;
-//             pessoa.unidade_id = unidadeDeSaude._id;
-//             const pessoas = await pessoaModel.create(pessoa);
-
-//             let agendamentos = new agendamentoModel();
-//             agendamentos.data_hora_agendamento =  req.body.pessoa.agendamento.data_hora_agendamento;
-//             agendamentos.necessidade_especiais =  req.body.pessoa.agendamento.necessidade_especiais;
-//             agendamentos.observação_agendamento =  req.body.pessoa.agendamento.observação_agendamento;
-//             agendamentos.pessoa_id = pessoas._id;
-//             const agendamento = await agendamentoModel.create(agendamentos);
-
-//             // const {nome_pessoa, cpf_pessoa, data_nascimento, telefone_pessoa, grupo_prioritario , endereço_pessoa, email_pessoa} = req.body.pessoa;
-//             // const pessoa = await pessoaModel.create(nome_pessoa, cpf_pessoa, data_nascimento, telefone_pessoa, grupo_prioritario , endereço_pessoa, email_pessoa);
-
-           
-          
-
-       
-//          return res.json(unidadeDeSaude, pessoas, agendamento ); 
-         
-//         } catch (error) {
-//           console.log(error);
-//           res.status(400).json({ error: "Erro ao criar unidade de saude" });
-//         }
-// }
 
 
 exports.adicionarAgendamento = async (req, res) => {
 try {    
-    agendamentoModel.find((err, pessoa) => {
+    agendModel.find((err, pessoa) => {
     if(err){
         console.log("Não foi possível recuperar o agendamento!");
         res.json({
@@ -69,23 +19,23 @@ try {
     //Eu tenho a lista dos alunos
 
     for(let i = 0; i < pessoa.length; i++){
-        if(req.body.cpf_pessoa === pessoa[i].cpf_pessoa){
+        if(req.body.cpfPessoa === pessoa[i].cpfPessoa){
             res.json({
                 status: "erro",
-                message: `Já existe um agendamento marcado para data ${req.body.data_hora_agendamento}`
+                message: `Já existe um agendamento marcado para data ${req.body.dataHoraAgendamento}`
             });
             return;
         }
     }
 
-    let neAgendamento = new agendamentoModel();
-    neAgendamento.pessoa_id =  req.body.pessoa_id;
-    neAgendamento.data_hora_agendamento = req.body.data_hora_agendamento;
-    neAgendamento.necessidade_especiais = req.body.necessidade_especiais;
-    newPessoa.observação_agendamento = req.body.observação_agendamento; 
+    let n_Agendamento = new agendModel();
+    n_Agendamento.pessoa_id =  req.body.pessoa_id;
+    n_Agendamento.dataHoraAgendamento = req.body.dataHoraAgendamento;
+    n_Agendamento.necEspeciais = req.body.necEspeciais;
+    newPessoa.obsAgendamento = req.body.obsAgendamento; 
   
     
-    neAgendamento.save((erro) => {
+    n_Agendamento.save((erro) => {
         if(erro){
             res.send({
                 status: "erro",
@@ -115,54 +65,54 @@ try {
 exports.listarAgendamento = async (req, res) => {
 try {
        
-const agendamento = await agendamentoModel.find();
+const agendamento = await agendModel.find();
 return res.json({ agendamento })    
 
    } catch (error) {
     console.log(error);
-    res.status(400).json({ error: "Erro ao carregar Lista de horario disponivel" });
+    res.status(400).json({ error: "Erro ao carregar Lista de horário" });
    }
 }
 
-exports.listarAgendamentoPorID = async (req, res) => {
+exports.listarAgendamentoID = async (req, res) => {
   try {
        
-    const unidadeDeSaude = await agendamentoModel.findById(req.params.id);
-    return res.send({ unidadeDeSaude })    
+    const unidadeSaude = await agendModel.findById(req.params.id);
+    return res.send({ unidadeSaude })    
     
        } catch (error) {
         console.log(error);
-        res.status(400).json({ error: "Erro ao localizar a horario de agendamento" });
+        res.status(400).json({ error: "Erro ao localizar a horário de agendamento" });
        }
 }
 
-exports.atualizarAgendamento = (req, res) => {
+exports.atualizarAgendam = (req, res) => {
   let id_Agendamento = req.params.id;
 
-  agendamentoModel.findById(id_Agendamento, (erro, agendamento) => {
+  agendModel.findById(id_Agendamento, (erro, agendamento) => {
       if(erro || !unidade){
-          console.log("Não foi possível recuperar as Unidades de Saúde!");
+          console.log("Não foi possível recuperar Unidades de Saúde!");
           res.json({
               status: "erro",
-              message: `Não foi possível recuperar a unidade de saúde de id ${id_Agendamento} para atualização!`
+              message: `Não foi possível recuperar unidade de saúde de id ${id_Agendamento} para atualização!`
           });
       }else{
         agendamento.pessoa_id =  req.body.pessoa_id;
-        agendamento.data_hora_agendamento = req.body.data_hora_agendamento;
-        agendamento.necessidade_especiais = req.body.necessidade_especiais;
-        agendamento.observação_agendamento = req.body.observação_agendamento; 
+        agendamento.dataHoraAgendamento = req.body.dataHoraAgendamento;
+        agendamento.necEspeciais = req.body.necEspeciais;
+        agendamento.obsAgendamento = req.body.obsAgendamento; 
       
       
         agendamento.save((err => {
               if(err){
                   res.json({
                       status: "erro",
-                      message: "Houve um erro ao atualizar o agendamento de saúde!"
+                      message: "Houve um erro ao atualizar o agendamento!"
                   });
               }else{
                   res.json({
                       status: "ok",
-                      message: `Agendamento ${data_hora_agendamento}, atualizado com sucesso!`,
+                      message: `Agendamento ${dataHoraAgendamento}, atualizado!`,
                       novoAgendamento: agendamento
                   })
               }
@@ -174,9 +124,9 @@ exports.atualizarAgendamento = (req, res) => {
 exports.removerAgendamento = async (req, res) => {
   try {
        
-    const pessoa = await agendamentoModel.findByIdAndRemove(req.params.id);
+    const pessoa = await agendModel.findByIdAndRemove(req.params.id);
     return res.json({ status: "ok",
-                      message: `Usuário ID: ${req.params.id}, removido com sucesso!`
+                      message: `Usuário ID: ${req.params.id}, removido!`
 
     })    
     

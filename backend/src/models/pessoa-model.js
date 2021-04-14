@@ -5,32 +5,32 @@ const pessoaSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         require: true
     },
-    nome_pessoa: {
+    nomePessoa: {
         type: mongoose.Schema.Types.String,
         default: Date.now,
         require: false
     },
-    cpf_pessoa: {
+    cpfPessoa: {
         type: mongoose.Schema.Types.String,
         required: true
     },
-    data_nascimento: {
+    dataNascimento: {
         type: mongoose.Schema.Types.String,
         required: true
     },
-    telefone_pessoa: {
+    telefonePessoa: {
         type: mongoose.Schema.Types.String,
         required: true
     },
-    grupo_prioritario: {
+    grupoPrioritario: {
         type: mongoose.Schema.Types.Boolean,
         required: true
     },
-    endereço_pessoa: {
+    endereçoPessoa: {
         type: mongoose.Schema.Types.String,
         required: true
     },
-    email_pessoa: {
+    emailPessoa: {
         type: mongoose.Schema.Types.String,
         required: true
     },

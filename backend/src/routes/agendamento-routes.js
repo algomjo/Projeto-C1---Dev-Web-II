@@ -10,9 +10,9 @@ router.get('/', apiController.listarAgendamento);
 
 // router.get('/all', apiController.listarAll);
 
-router.get('/:id', apiController.listarAgendamentoPorID);
+router.get('/:id', apiController.listarAgendamentoID);
 
-router.put('/:id', apiController.atualizarAgendamento);
+router.put('/:id', apiController.atualizarAgendam);
 
 router.delete('/:id', apiController.removerAgendamento);
 

@@ -1,27 +1,27 @@
 const mongoose = require('mongoose');
 
 const unidadeSaudeSchema = new mongoose.Schema({
-    nome_unidade: {
+    nomeUnidade: {
         type: mongoose.Schema.Types.String,
         required: true
     },
-    descriacao_unidade: {
+    descricaoUnidade: {
         type: mongoose.Schema.Types.String,
         required: true
     },
-    endereco_unidade: {
+    endUnidade: {
         type: mongoose.Schema.Types.String,
         required: true
     },
-    telefone_unidade: {
+    telUnidade: {
         type: mongoose.Schema.Types.String,
         required: true
     },
-    email_unidade: {
+    emailUnidade: {
         type: mongoose.Schema.Types.String,
         required: true
     },
-    latlong_unidade: {
+    latlongUnidade: {
         type: mongoose.Schema.Types.String,
         required: true
     },

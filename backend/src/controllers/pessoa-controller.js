@@ -1,65 +1,14 @@
-const unidadeDeSaudeModel = require('../models/unidadeSaude-model');
-const pessoaModel = require('../models/pessoa-model');
-const agendamentoModel = require('../models/agendamento-model');
+const unidSaudeModel = require('../models/unidadeSaude-model');
+const pesModel = require('../models/pessoa-model');
+const agendModel = require('../models/agendamento-model');
 
 const mongoose = require('mongoose');
 
 
-//Rota basica que cria unidade, pessoas, agendamentos
-// exports.adicionarAluno = async (req, res) => {
-
-  
-//         try {    
-          
-             
-//             //Criar documento unidade
-//             let unidade = new unidadeDeSaudeModel();            
-//             unidade.nome_unidade = req.body.nome_unidade; 
-//             unidade.descriacao_unidade =  req.body.descriacao_unidade;
-//             unidade.endereco_unidade =  req.body.endereco_unidade;
-//             unidade.telefone_unidade =  req.body.telefone_unidade;
-//             unidade.email_unidade =  req.body.email_unidade;
-//             unidade.latlong_unidade =  req.body.latlong_unidade;
-//             const unidadeDeSaude = await unidadeDeSaudeModel.create(unidade);
-
-            
-//            //Criar documento pessoas
-//             let pessoa = new pessoaModel();
-//             pessoa.nome_pessoa = req.body.pessoa.nome_pessoa;
-//             pessoa.cpf_pessoa = req.body.pessoa.cpf_pessoa;
-//             pessoa.data_nascimento = req.body.pessoa.data_nascimento;
-//             pessoa.telefone_pessoa = req.body.pessoa.telefone_pessoa;
-//             pessoa.grupo_prioritario = req.body.pessoa.grupo_prioritario;
-//             pessoa.endereço_pessoa = req.body.pessoa.endereço_pessoa;
-//             pessoa.email_pessoa = req.body.pessoa.email_pessoa;
-//             pessoa.unidade_id = unidadeDeSaude._id;
-//             const pessoas = await pessoaModel.create(pessoa);
-
-//             let agendamentos = new agendamentoModel();
-//             agendamentos.data_hora_agendamento =  req.body.pessoa.agendamento.data_hora_agendamento;
-//             agendamentos.necessidade_especiais =  req.body.pessoa.agendamento.necessidade_especiais;
-//             agendamentos.observação_agendamento =  req.body.pessoa.agendamento.observação_agendamento;
-//             agendamentos.pessoa_id = pessoas._id;
-//             const agendamento = await agendamentoModel.create(agendamentos);
-
-//             // const {nome_pessoa, cpf_pessoa, data_nascimento, telefone_pessoa, grupo_prioritario , endereço_pessoa, email_pessoa} = req.body.pessoa;
-//             // const pessoa = await pessoaModel.create(nome_pessoa, cpf_pessoa, data_nascimento, telefone_pessoa, grupo_prioritario , endereço_pessoa, email_pessoa);
-
-           
-          
-
-       
-//          return res.json(unidadeDeSaude, pessoas, agendamento ); 
-         
-//         } catch (error) {
-//           console.log(error);
-//           res.status(400).json({ error: "Erro ao criar unidade de saude" });
-//         }
-// }
 
 exports.listarAll = async (req, res) => {
-    const unidades = await unidadeDeSaudeModel.find();
-    const pessoas = await pessoaModel.find();
+    const unidades = await unidSaudeModel.find();
+    const pessoas = await pesModel.find();
 
     const schemas = [];
 
@@ -79,35 +28,35 @@ exports.listarAll = async (req, res) => {
 
 exports.adicionarPessoa = async (req, res) => {
 try {    
-    pessoaModel.find((err, pessoa) => {
+    pesModel.find((err, pessoa) => {
     if(err){
         console.log("Não foi possível recuperar o usuario!");
         res.json({
             status: "erro",
-            message: "Não foi possível recuperar os usuarios e portanto inserir um novo usuario!"
+            message: "Não foi possível recuperar os usuarios e inserir novo usuario!"
         });
     }
     //Eu tenho a lista dos alunos
 
     for(let i = 0; i < pessoa.length; i++){
-        if(req.body.cpf_pessoa === pessoa[i].cpf_pessoa){
+        if(req.body.cpfPessoa === pessoa[i].cpfPessoa){
             res.json({
                 status: "erro",
-                message: `O usuário  ${req.body.nome_pessoa}, já está cadastrado no sistema com o CPF: ${req.body.cpf_pessoa}`
+                message: `Usuário  ${req.body.nomePessoa}, já está cadastrado no sistema com o CPF: ${req.body.cpfPessoa}`
             });
             return;
         }
     }
 
-    let newPessoa = new pessoaModel();
+    let newPessoa = new pesModel();
     newPessoa.unidade_id =  req.body.unidade_id;
-    newPessoa.nome_pessoa = req.body.nome_pessoa;
-    newPessoa.cpf_pessoa = req.body.cpf_pessoa;
-    newPessoa.data_nascimento = req.body.data_nascimento;
-    newPessoa.telefone_pessoa = req.body.telefone_pessoa;
-    newPessoa.grupo_prioritario = req.body.grupo_prioritario;
-    newPessoa.endereço_pessoa = req.body.endereço_pessoa;
-    newPessoa.email_pessoa = req.body.email_pessoa;
+    newPessoa.nomePessoa = req.body.nomePessoa;
+    newPessoa.cpfPessoa = req.body.cpfPessoa;
+    newPessoa.dataNascimento = req.body.dataNascimento;
+    newPessoa.telefonePessoa = req.body.telefonePessoa;
+    newPessoa.grupoPrioritario = req.body.grupoPrioritario;
+    newPessoa.endereçoPessoa = req.body.endereçoPessoa;
+    newPessoa.emailPessoa = req.body.emailPessoa;
     
   
     
@@ -120,7 +69,7 @@ try {
         }else{
             res.send({
                 status: "ok",
-                message: `Usuário ${req.body.nome_pessoa}, inserida com sucesso!`
+                message: `Usuário ${req.body.nomePessoa}, inserida com sucesso!`
             });
         }
     })
@@ -141,7 +90,7 @@ try {
 exports.listarPessoa = async (req, res) => {
 try {
        
-const pessoas = await pessoaModel.find();
+const pessoas = await pesModel.find();
 return res.json({ pessoas })    
 
    } catch (error) {
@@ -153,8 +102,8 @@ return res.json({ pessoas })
 exports.listarPessoaPorID = async (req, res) => {
   try {
        
-    const unidadeDeSaude = await pessoaModel.findById(req.params.id);
-    return res.send({ unidadeDeSaude })    
+    const unidadeSaude = await pesModel.findById(req.params.id);
+    return res.send({ unidadeSaude })    
     
        } catch (error) {
         console.log(error);
@@ -163,22 +112,22 @@ exports.listarPessoaPorID = async (req, res) => {
 }
 
 exports.atualizarPessoa = (req, res) => {
-  let id_unidade = req.params.id;
+  let idUnidade = req.params.id;
 
-  unidadeDeSaudeModel.findById(id_unidade, (erro, unidade) => {
+  unidSaudeModel.findById(idUnidade, (erro, unidade) => {
       if(erro || !unidade){
-          console.log("Não foi possível recuperar as Unidades de Saúde!");
+          console.log("Não foi possível recuperar Unidades de Saúde!");
           res.json({
               status: "erro",
-              message: `Não foi possível recuperar a unidade de saúde de id ${id_unidade} para atualização!`
+              message: `Não foi possível recuperar unidade de saúde de id ${idUnidade} para atualização!`
           });
       }else{
-        unidade.nome_unidade = req.body.nome_unidade;
-        unidade.descriacao_unidade = req.body.descriacao_unidade;
-        unidade.endereco_unidade = req.body.endereco_unidade;
-        unidade.telefone_unidade = req.body.telefone_unidade;
-        unidade.email_unidade = req.body.email_unidade;
-        unidade.latlong_unidade = req.body.latlong_unidade;
+        unidade.nomeUnidade = req.body.nomeUnidade;
+        unidade.descricaoUnidade = req.body.descricaoUnidade;
+        unidade.endUnidade = req.body.endUnidade;
+        unidade.telUnidade = req.body.telUnidade;
+        unidade.emailUnidade = req.body.emailUnidade;
+        unidade.latlongUnidade = req.body.latlongUnidade;
       
         unidade.save((err => {
               if(err){
@@ -189,7 +138,7 @@ exports.atualizarPessoa = (req, res) => {
               }else{
                   res.json({
                       status: "ok",
-                      message: `Unidade de saúde ${unidade.nome_unidade} atualizado com sucesso!`,
+                      message: `Unidade de saúde ${unidade.nomeUnidade} atualizado com sucesso!`,
                       novoUnidade: unidade
                   })
               }
@@ -201,7 +150,7 @@ exports.atualizarPessoa = (req, res) => {
 exports.removerPessoa = async (req, res) => {
   try {
        
-    const pessoa = await pessoaModel.findByIdAndRemove(req.params.id);
+    const pessoa = await pesModel.findByIdAndRemove(req.params.id);
     return res.json({ status: "ok",
                       message: `Usuário ID: ${req.params.id}, removido com sucesso!`
 
